@@ -1,0 +1,20 @@
+body{
+    background-color: #121212;  
+    color: #f1f1f1;
+}
+
+.style-none a{
+    text-decoration: none;
+    list-style-type: none;
+    color: #ffffff;
+}
+.style-none a hr{
+    display: none;
+}
+.style-none a.active hr {
+    display: block;
+    border: none;
+    height: 3px;
+    background: #fff;
+    margin: 0;
+}
