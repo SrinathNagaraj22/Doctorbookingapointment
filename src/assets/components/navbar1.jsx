@@ -41,7 +41,7 @@ function Navbar1() {
             </div>
           </div>
           :
-          <button type="button" onClick={()=>navigate('/login')} className="btn btn-dark mt-1">Create account</button>
+          <button type="button" onClick={()=>navigate('/createaccount')} className="btn btn-dark mt-1">Create account</button>
         }
       </div>
     </div>

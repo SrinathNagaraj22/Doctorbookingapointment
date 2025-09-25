@@ -9,6 +9,7 @@ import Doctors from './assets/pages/doctors.jsx';
 import Myprofile from './assets/pages/myprofile.jsx';
 import Apointment from './assets/pages/apointment.jsx';
 import Navbar1 from './assets/components/navbar1.jsx';
+import Createaccount from './assets/pages/createaccount.jsx';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path='/doctors/:Speciality' element={<Doctors />} />
         <Route path='/myprofile' element={<Myprofile />} />
         <Route path='/apointment/:doctorId' element={<Apointment />} />
+        <Route path='/createaccount' element={<Createaccount />} />
         
       </Routes>
     </div>
