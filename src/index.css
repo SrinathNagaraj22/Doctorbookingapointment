@@ -46,3 +46,27 @@ body{
 .container{
     margin-top: 50px;
 }
+.header{
+    font-size: 50px;
+}
+.doctors-grid{
+    display:grid;
+    grid-template-columns: repeat(5,1fr);
+    grid-template-rows: repeat(2,auto) ;
+    gap:20px;
+    text-align: center;
+}
+.doctor-card{
+    background-color: #1e1e2f;
+    color: #fff;
+}
+.doctor-card .text-muted {
+  color: #fff !important;
+}
+.verticalline{
+    border-left: 2px solid gray;
+    height: 300px;
+    margin: 0 20px
+
+}
+

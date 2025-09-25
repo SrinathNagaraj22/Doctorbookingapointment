@@ -10,6 +10,7 @@ import Myprofile from './assets/pages/myprofile.jsx';
 import Apointment from './assets/pages/apointment.jsx';
 import Navbar1 from './assets/components/navbar1.jsx';
 import Createaccount from './assets/pages/createaccount.jsx';
+import './index.css'
 
 function App() {
   return (
