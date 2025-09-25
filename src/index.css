@@ -18,3 +18,28 @@ body{
     background: #fff;
     margin: 0;
 }
+.hidden-menu{
+    display: none;
+    position:absolute;
+    background-color: #ffffff;
+    top: 50px;
+    right: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    border-radius: 4px;
+    padding: 10px 0;
+    min-width: 150px;
+    color: #000;
+    z-index: 1000;
+}
+.profile{
+    cursor: pointer;
+}
+.hidden-menu p{
+    padding: 10px 20px;
+    margin: 0;
+    cursor: pointer;
+}
+.hidden-menu p:hover{
+    color: #ffffff;
+    background-color: #007bff;
+}   
