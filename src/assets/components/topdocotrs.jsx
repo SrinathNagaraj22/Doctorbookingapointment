@@ -1,8 +1,12 @@
-import React from 'react'
-import { assets, doctors } from '../images/assets'
+import React, { useContext } from 'react'
 import '../../index.css'
+import { useNavigate } from 'react-router-dom'
+import { Appcontext } from '../context/context';
 
 function Topdoctors() {
+  const navigate=useNavigate();
+  const {doctors}=useContext(Appcontext);
+
   return (
     <div>
       <div>
@@ -14,7 +18,7 @@ function Topdoctors() {
         <div className='container'>
           <div className='doctors-grid'>
             {doctors.slice(0, 10).map((item, index) => (
-              <div key={index} className='card doctor-card p-3 shadow-sm h-100'>
+              <div onClick={()=>navigate(`/apointment/${item._id}`)} key={index} className='card doctor-card p-3 shadow-sm h-100'>
                 <img
                   src={item.image}
                   alt='doctorimage'
@@ -34,7 +38,7 @@ function Topdoctors() {
         </div>
 
         <div className='text-center'>
-          <button className='btn btn-primary mt-4'>More</button>
+          <button type='button' onClick={()=>{navigate(`/doctors`)}} className='btn btn-primary mt-4'>More</button>
         </div>
       </div>
     </div>

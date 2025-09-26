@@ -59,6 +59,7 @@ body{
 .doctor-card{
     background-color: #1e1e2f;
     color: #fff;
+    cursor: pointer;
 }
 .doctor-card .text-muted {
   color: #fff !important;
