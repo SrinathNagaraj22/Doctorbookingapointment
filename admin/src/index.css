@@ -1,0 +1,16 @@
+body{
+    background-color: #121212;  
+    color: #f1f1f1;
+}
+.sidebar-link {
+  color: white; 
+  text-decoration: none; 
+}
+
+.sidebar-link:hover {
+  color: darkgray
+}
+
+.sidebar-link.active {
+    color: skyblue;
+}
