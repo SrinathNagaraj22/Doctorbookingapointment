@@ -30,8 +30,7 @@ const addDoctor = async (req, res) => {
       !experience ||
       !about ||
       !fees ||
-      !address ||
-      available === undefined
+      !address 
     ) {
       return res.status(400).json({
         success: false,
@@ -138,4 +137,20 @@ const loginAdmin = async(req,res)=>
     }
 }
 
-export { addDoctor, loginAdmin };
+//api to get all doctors list
+const alldoctors = async (req,res)=>{
+  try{
+
+    const doctors=await DoctorModel.find({}).select('-password')
+    res.json({success:true,doctors})
+
+  }
+  catch(error){
+    console.log(error)
+    res.status(500).json({success:false,message:error.message})
+
+  }
+
+}
+
+export { addDoctor, loginAdmin,  alldoctors };

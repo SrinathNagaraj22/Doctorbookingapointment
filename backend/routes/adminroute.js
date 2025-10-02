@@ -1,10 +1,16 @@
-import express from 'express'
-import { addDoctor, loginAdmin } from '../controllers/admincontroller.js'
-import upload from '../middleware/multer.js'
-import Adminauth from '../middleware/adminauth.js'
+import express from "express";
 
-const adminRouter = express.Router()
+import upload from "../middleware/multer.js"; // multer setup for image upload
+import Adminauth from "../middleware/adminauth.js";
+import { addDoctor, alldoctors, loginAdmin } from "../controllers/admincontroller.js";
+import changeavailability from "../controllers/doctorcontroller.js";
 
-adminRouter.post('/addDoctor', Adminauth,upload.single('image'), addDoctor)
-adminRouter.post('/login', loginAdmin)
-export default adminRouter
+
+const router = express.Router();
+
+router.post("/login", loginAdmin);
+router.post("/addDoctor", Adminauth, upload.single("image"),  addDoctor);
+router.post("/all-doctors", Adminauth, alldoctors)
+router.post("/changeavailability", Adminauth, changeavailability)
+
+export default router;

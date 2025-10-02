@@ -1,27 +1,22 @@
-import jwt from 'jsonwebtoken'
+import jwt from "jsonwebtoken";
 
-// admin authentication middleware
-const Adminauth = async (req, res, next)=> {
-    try{
-        const {atoken} = req.headers
-        if(!atoken)
-        {
-            return res.status(401).json({success:false , message: "Unauthorised login admin"})
-        }
-        const token_decode = jwt.verify(atoken, process.env.JWT_SECRET )
-        if(token_decode !== process.env.ADMIN_EMAIL + process.env.ADMIN_PASSWORD)
-        {
-            return res.status(401).json({success:false, Message: "Error occured while signing in"})
-        }
-        next()
-    }
-    catch (error) {
-        console.log(error)
-        res.json({success:false, message:error.message})
+const Adminauth = (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer "))
+      return res.status(401).json({ success: false, message: "Unauthorized admin" });
 
-    }
+    const token = authHeader.split(" ")[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
+    if (decoded !== process.env.ADMIN_EMAIL + process.env.ADMIN_PASSWORD)
+      return res.status(401).json({ success: false, message: "Unauthorized admin" });
 
-}
+    next();
+  } catch (error) {
+    console.error("Adminauth Error:", error);
+    return res.status(401).json({ success: false, message: "Invalid token" });
+  }
+};
 
-export default Adminauth
+export default Adminauth;
