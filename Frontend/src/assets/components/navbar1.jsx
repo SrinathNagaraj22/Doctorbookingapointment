@@ -1,51 +1,73 @@
-import React from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
-import '../../index.css'
+import React, { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import '../../index.css';
 
 function Navbar1() {
   const navigate = useNavigate();
   const [showmenu, setShowmenu] = useState(false);
-  const [token, setToken] = useState(false);
+  const [token, setToken] = useState(true);
 
   return (
-    <div className='style-none d-flex m-5 align-items-center'>
-      <p className='fs-2'>Five rupee Multi-Speciality Hospital</p>
-      <ul className='d-flex justify-content-around align-items-center w-50  ms-5 mb-0' style={{ listStyleType: 'none' }}>
-        <NavLink to="/">
-        <li>Home</li>
-        <hr />
-        </NavLink>
-        <NavLink to="/about">
-        <li>About</li>
-        <hr />
-        </NavLink>
-        <NavLink to="/doctors">
-        <li>Doctors</li>
-        <hr />
-        </NavLink>
-        <NavLink to="/contact">
-        <li>Contact</li>
-        <hr />
-        </NavLink>
-      </ul>
-      <div className="ms-auto">
-        {
-          token ?
-          <div className='position-relative'>
-            <i className="bi bi-person-circle fs-2 me-5 profile" onClick={()=>setShowmenu(!showmenu)}></i>
-            <div className='hidden-menu' style={{display: showmenu ? 'block' : 'none'}}>
-              <p className='' onClick={()=>navigate('/myprofile')}>My Profile</p>
-              <p className='' onClick={()=>navigate('/myapointment')}>My apointments</p>
-              <p className='' onClick={()=>setToken(false)}>Logout</p>
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+      <NavLink className="navbar-brand fs-4" to="/">
+        Five Rupee Multi-Speciality Hospital
+      </NavLink>
+
+      {/* Hamburger button for mobile */}
+      <button 
+        className="navbar-toggler" 
+        type="button" 
+        data-bs-toggle="collapse" 
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav" 
+        aria-expanded="false" 
+        aria-label="Toggle navigation"
+      >
+        <span className="navbar-toggler-icon"></span>
+      </button>
+
+      <div className="collapse navbar-collapse" id="navbarNav">
+        <ul className="navbar-nav mx-auto">
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/">Home</NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/about">About</NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/doctors">Doctors</NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/contact">Contact</NavLink>
+          </li>
+        </ul>
+
+        {/* Profile or Account button */}
+        <div className="d-flex">
+          {token ? (
+            <div className="dropdown">
+              <i 
+                className="bi bi-person-circle fs-3 text-white dropdown-toggle" 
+                role="button" 
+                id="profileMenu" 
+                data-bs-toggle="dropdown" 
+                aria-expanded="false"
+              ></i>
+              <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="profileMenu">
+                <li><p className="dropdown-item mb-0" onClick={()=>navigate('/myprofile')}>My Profile</p></li>
+                <li><p className="dropdown-item mb-0" onClick={()=>navigate('/myapointment')}>My Appointments</p></li>
+                <li><p className="dropdown-item mb-0" onClick={()=>{navigate('/login');setToken(false)}}>Logout</p></li>
+              </ul>
             </div>
-          </div>
-          :
-          <button type="button" onClick={()=>navigate('/createaccount')} className="btn btn-dark mt-1">Create account</button>
-        }
+          ) : (
+            <button type="button" onClick={()=>navigate('/createaccount')} className="btn btn-outline-light">
+              Create Account
+            </button>
+          )}
+        </div>
       </div>
-    </div>
-  )
+    </nav>
+  );
 }
 
-export default Navbar1
+export default Navbar1;

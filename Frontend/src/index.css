@@ -73,4 +73,6 @@ body{
 .relateddoctorimage{
     cursor: pointer;
 }
-
+.dropdown-item{
+    cursor: pointer;
+}

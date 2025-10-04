@@ -1,45 +1,43 @@
 import React, { useContext } from 'react'
-import '../../index.css'
 import { useNavigate } from 'react-router-dom'
 import { Appcontext } from '../context/context';
+import '../../index.css'
 
 function Topdoctors() {
-  const navigate=useNavigate();
-  const {doctors}=useContext(Appcontext);
+  const navigate = useNavigate();
+  const { doctors } = useContext(Appcontext);
 
   return (
-    <div>
-      <div>
-        <h1 className='text-center mt-5'>Top Doctor's</h1>
-        <p className='text-center'>
-          Simply browse through our expert top doctor's and book your appointment
-        </p>
+    <div className='container mt-5'>
+      <h1 className='text-center'>Top Doctor's</h1>
+      <p className='text-center'>
+        Simply browse through our expert top doctors and book your appointment
+      </p>
 
-        <div className='container'>
-          <div className='doctors-grid'>
-            {doctors.slice(0, 10).map((item, index) => (
-              <div onClick={()=>navigate(`/apointment/${item._id}`)} key={index} className='card doctor-card p-3 shadow-sm h-100'>
-                <img
-                  src={item.image}
-                  alt='doctorimage'
-                  className='img-fluid rounded-circle mx-auto'
-                  style={{
-                    width: '120px',
-                    height: '120px',
-                    objectFit: 'cover'
-                  }}
-                />
-                <p className='mt-3 text-success'>Available</p>
-                <h5 className='mb-1'>{item.name}</h5>
-                <p className='text-muted'>{item.speciality}</p>
-              </div>
-            ))}
+      <div className='row mt-4'>
+        {doctors.slice(0, 12).map((item, index) => (
+          <div key={index} className='col-6 col-md-4 col-lg-3 mb-4'>
+            <div onClick={() => navigate(`/apointment/${item._id}`)} className='card doctor-card p-3 shadow-sm h-100 text-center'>
+              <img
+                src={item.image}
+                alt='doctorimage'
+                className='img-fluid rounded-circle mx-auto'
+                style={{
+                  width: '100px',
+                  height: '100px',
+                  objectFit: 'cover'
+                }}
+              />
+              <p className='mt-2 text-success'>Available</p>
+              <h6 className='mb-1'>{item.name}</h6>
+              <p className='text-muted small'>{item.speciality}</p>
+            </div>
           </div>
-        </div>
+        ))}
+      </div>
 
-        <div className='text-center'>
-          <button type='button' onClick={()=>{navigate(`/doctors`)}} className='btn btn-primary mt-4'>More</button>
-        </div>
+      <div className='text-center'>
+        <button type='button' onClick={() => { navigate(`/doctors`) }} className='btn btn-primary mt-3'>More</button>
       </div>
     </div>
   )
