@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Appcontext } from '../context/context';
+import { Appcontext } from '../context/appcontext.jsx';
 import '../../index.css'
 
 function Topdoctors() {

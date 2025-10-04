@@ -9,28 +9,32 @@ import Doctors from './assets/pages/doctors.jsx';
 import Myprofile from './assets/pages/myprofile.jsx';
 import Apointment from './assets/pages/apointment.jsx';
 import Navbar1 from './assets/components/navbar1.jsx';
-import Createaccount from './assets/pages/createaccount.jsx';
 import './index.css';
+import Loginorcreateaccount from './assets/pages/login.jsx';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 function App() {
   return (
-    <div>
+    <>
       <Navbar1 />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/about' element={<About />} />
-        <Route path='/login' element={<Login />} />
+        <Route path='/login' element={<Loginorcreateaccount />} />
         <Route path='/myapointment' element={<Myapointment />} />
         <Route path='/doctors' element={<Doctors />} />
         <Route path='/doctors/:Speciality' element={<Doctors />} />
         <Route path='/myprofile' element={<Myprofile />} />
         <Route path='/apointment/:docId' element={<Apointment />} />
-        <Route path='/createaccount' element={<Createaccount />} />
+        <Route path='/createaccount' element={<Loginorcreateaccount />} />
       </Routes>
-      
-    </div>
+
+      {/* Toast container must be inside root JSX */}
+      <ToastContainer position="top-right" autoClose={3000} />
+    </>
   )
 }
 

@@ -1,19 +1,23 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import '../../index.css';
+import { Appcontext } from '../context/appcontext';
 
 function Navbar1() {
   const navigate = useNavigate();
-  const [showmenu, setShowmenu] = useState(false);
-  const [token, setToken] = useState(true);
+  const { token, setToken } = useContext(Appcontext);
+
+  const Logout = () => {
+    setToken(null);
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-3">
       <NavLink className="navbar-brand fs-4" to="/">
         Five Rupee Multi-Speciality Hospital
       </NavLink>
-
-      {/* Hamburger button for mobile */}
       <button 
         className="navbar-toggler" 
         type="button" 
@@ -41,8 +45,6 @@ function Navbar1() {
             <NavLink className="nav-link" to="/contact">Contact</NavLink>
           </li>
         </ul>
-
-        {/* Profile or Account button */}
         <div className="d-flex">
           {token ? (
             <div className="dropdown">
@@ -54,13 +56,13 @@ function Navbar1() {
                 aria-expanded="false"
               ></i>
               <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="profileMenu">
-                <li><p className="dropdown-item mb-0" onClick={()=>navigate('/myprofile')}>My Profile</p></li>
-                <li><p className="dropdown-item mb-0" onClick={()=>navigate('/myapointment')}>My Appointments</p></li>
-                <li><p className="dropdown-item mb-0" onClick={()=>{navigate('/login');setToken(false)}}>Logout</p></li>
+                <li><p className="dropdown-item mb-0" onClick={() => navigate('/myprofile')}>My Profile</p></li>
+                <li><p className="dropdown-item mb-0" onClick={() => navigate('/myapointment')}>My Appointments</p></li>
+                <li><p className="dropdown-item mb-0" onClick={Logout}>Logout</p></li>
               </ul>
             </div>
           ) : (
-            <button type="button" onClick={()=>navigate('/createaccount')} className="btn btn-outline-light">
+            <button type="button" onClick={() => navigate('/createaccount')} className="btn btn-outline-light">
               Create Account
             </button>
           )}

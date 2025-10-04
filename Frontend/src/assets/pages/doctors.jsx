@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Appcontext } from '../context/context'
+import { Appcontext } from '../context/appcontext.jsx'
 
 function Doctors() {
 
