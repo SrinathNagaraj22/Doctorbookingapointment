@@ -59,7 +59,7 @@ const loginUser = async (req, res) => {
   }
 };
 
-// Get profile
+
 const getProfile = async (req, res) => {
   try {
     const userData = await usermodel.findById(req.userId).select("-password");
@@ -73,7 +73,6 @@ const getProfile = async (req, res) => {
   }
 };
 
-// Update profile
 const updateProfile = async (req, res) => {
   try {
     const { name, phone, address, dob, gender } = req.body;
@@ -85,7 +84,7 @@ const updateProfile = async (req, res) => {
 
     const updateData = { name, phone, address, dob, gender };
 
-    // Handle image upload
+    
     if (imageFile) {
       const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" });
       updateData.image = imageUpload.secure_url;
@@ -106,7 +105,7 @@ const bookappointment = async (req, res) => {
   try {
     const { docId, slotDate, slotTime } = req.body;
 
-    // Get userId from req.userId (decoded from JWT in auth middleware)
+    
     const userId = req.userId; 
     if (!userId) return res.status(401).json({ success: false, message: "Unauthorized" });
 
@@ -114,7 +113,7 @@ const bookappointment = async (req, res) => {
     if (!docData) return res.status(404).json({ success: false, message: "Doctor not found" });
     if (!docData.available) return res.json({ success: false, message: "Doctor not available" });
 
-    // Manage booked slots
+    
     const slots_booked = docData.slots_booked || {};
     if (slots_booked[slotDate]?.includes(slotTime)) {
       return res.json({ success: false, message: "Slot not available" });
@@ -122,10 +121,10 @@ const bookappointment = async (req, res) => {
     if (!slots_booked[slotDate]) slots_booked[slotDate] = [];
     slots_booked[slotDate].push(slotTime);
 
-    // Get user info
+    
     const userData = await usermodel.findById(userId).select('-password');
 
-    // Prepare docData for appointment without slots_booked
+    
     const docDataForAppointment = { ...docData._doc };
     delete docDataForAppointment.slots_booked;
 
@@ -138,7 +137,7 @@ const bookappointment = async (req, res) => {
       slotTime,
       slotDate,
       date: Date.now(),
-      userDate: new Date().toISOString() // ✅ Add userDate here
+      userDate: new Date().toISOString() // 
     };
 
     const newAppointment = new appointmentModel(appointmentData);
@@ -153,6 +152,27 @@ const bookappointment = async (req, res) => {
   }
 };
 
+// API to get user appointments
+// controllers/userController.js
+
+const listAppointment = async (req, res) => {
+  try {
+    const userId = req.userId; // get userId from token
+    if (!userId) {
+      return res.status(400).json({ success: false, message: "UserId is required" });
+    }
+
+    const appointments = await appointmentModel.find({ userId }).sort({ date: -1 });
+    res.json({ success: true, appointments });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
 
 
-export { registerUser, loginUser, getProfile, updateProfile, bookappointment};
+
+
+
+
+export { registerUser, loginUser, getProfile, updateProfile, bookappointment, listAppointment};

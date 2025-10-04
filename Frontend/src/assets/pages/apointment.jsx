@@ -32,11 +32,19 @@ function Appointment() {
     setNext7Days(days);
   }, []);
 
-  // Filter slots for today to remove past times
+  // Get available slots: removes booked slots & past slots
   const getAvailableSlots = (day) => {
     const now = new Date();
+    let available = [...timeSlots];
+
+    // Remove booked slots for the day
+    if (docInfo.slots_booked && docInfo.slots_booked[day]) {
+      available = available.filter(slot => !docInfo.slots_booked[day].includes(slot));
+    }
+
+    // Remove past slots if today
     if (day === now.toISOString().split("T")[0]) {
-      return timeSlots.filter(slot => {
+      available = available.filter(slot => {
         const [hourPart, minAndPeriod] = slot.split(":");
         const period = minAndPeriod.slice(-2);
         let hour = parseInt(hourPart);
@@ -48,7 +56,8 @@ function Appointment() {
         return slotTime > now;
       });
     }
-    return timeSlots;
+
+    return available;
   };
 
   const bookAppointment = async () => {
@@ -132,7 +141,7 @@ function Appointment() {
                   key={idx}
                   className={`btn btn-sm ${selectedDate === day.date ? "btn-warning text-dark" : "btn-outline-light"}`}
                   onClick={() => { setSelectedDate(day.date); setSelectedSlot(""); }}
-                  disabled={getAvailableSlots(day.date).length === 0}
+                  disabled={getAvailableSlots(day.date).length === 0} // disable if no slots
                 >
                   {day.dayName} <br /> {day.date.split('-').reverse().join('-')}
                 </button>
