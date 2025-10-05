@@ -1,6 +1,6 @@
-// pages/Login.jsx
 import React, { useState, useContext } from "react";
 import { AdminContext } from "../context/AdminContext.jsx";
+import { DoctorContext } from "../context/doctorcontext.jsx";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -10,90 +10,85 @@ function Login() {
   const [password, setPassword] = useState("");
 
   const { setAToken, setUserType, backendUrl } = useContext(AdminContext);
+  const { setDToken } = useContext(DoctorContext);
 
-  const onSubmitHandler = async (event) => {
-    event.preventDefault();
-
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
     try {
       const url =
         state === "ADMIN"
-          ? backendUrl + "/api/admin/login"
-          : backendUrl + "/api/doctor/login";
+          ? `${backendUrl}/api/admin/login`
+          : `${backendUrl}/api/doctor/login`;
 
       const { data } = await axios.post(url, { email, password });
 
       if (data.success) {
-        localStorage.setItem("AToken", data.token);
-        localStorage.setItem("userType", state);
-        setAToken(data.token);
-        setUserType(state);
-        toast.success("Login successful!");
+        if (state === "ADMIN") {
+          localStorage.setItem("AToken", data.token);
+          localStorage.setItem("userType", "ADMIN");
+          setAToken(data.token);
+          setUserType("ADMIN");
+          toast.success("Admin login successful!");
+        } else {
+          localStorage.setItem("DToken", data.token);
+          localStorage.setItem("userType", "DOCTOR");
+          setDToken(data.token);
+          setUserType("DOCTOR");
+          toast.success("Doctor login successful!");
+        }
       } else {
-        toast.error(data.message || "Invalid credentials");
+        toast.error(data.message || "Login failed");
       }
     } catch (error) {
+      console.error(error);
       toast.error(error.response?.data?.message || "Login failed");
     }
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
+    <div className="d-flex justify-content-center align-items-center vh-100 bg-dark">
       <form
         onSubmit={onSubmitHandler}
-        className="p-4 border rounded"
+        className="p-4 rounded shadow bg-dark text-light"
         style={{ minWidth: "350px" }}
       >
-        <p className="text-center fs-4 mb-4 fw-bold">
-          <span className="fw-bold">{state}</span> LOGIN
-        </p>
+        <h3 className="text-center mb-4">{state} LOGIN</h3>
 
         <div className="mb-3">
-          <label htmlFor="exampleInputEmail1" className="form-label">
-            Email
-          </label>
+          <label htmlFor="emailInput" className="form-label">Email</label>
           <input
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
+            id="emailInput"
             type="email"
             className="form-control"
-            id="exampleInputEmail1"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 
         <div className="mb-3">
-          <label htmlFor="exampleInputPassword1" className="form-label">
-            Password
-          </label>
+          <label htmlFor="passwordInput" className="form-label">Password</label>
           <input
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
+            id="passwordInput"
             type="password"
             className="form-control"
-            id="exampleInputPassword1"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
 
-        <button type="submit" className="btn btn-primary w-100">
-          Login
-        </button>
+        <button type="submit" className="btn btn-primary w-100">Login</button>
 
         {state === "ADMIN" ? (
-          <p>
-            Doctor Login?
-            <span
-              className="text-primary underline ms-3 cursor-pointer"
-              onClick={() => setState("DOCTOR")}
-            >
+          <p className="mt-3 text-center">
+            Doctor Login?{" "}
+            <span className="text-info cursor-pointer" onClick={() => setState("DOCTOR")}>
               Click here
             </span>
           </p>
         ) : (
-          <p>
-            Admin Login?
-            <span
-              className="text-primary underline cursor-pointer ms-3"
-              onClick={() => setState("ADMIN")}
-            >
+          <p className="mt-3 text-center">
+            Admin Login?{" "}
+            <span className="text-info cursor-pointer" onClick={() => setState("ADMIN")}>
               Click here
             </span>
           </p>

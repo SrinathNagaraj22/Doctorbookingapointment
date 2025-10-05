@@ -6,11 +6,12 @@ import {toast} from 'react-toastify'
 export const AdminContext = createContext();
 
 export const AdminContextProvider = ({ children }) => {
-  // Initialize from localStorage so refresh keeps login
   const [aToken, setAToken] = useState(localStorage.getItem("AToken") || "");
+  
   const [userType, setUserType] = useState(localStorage.getItem("userType") || "");
   const [doctors, setDoctors]= useState([])
-
+  const [appointments, setAppointments] = useState([])
+  const [dashData, setDashData] = useState(false)
   const token = aToken || localStorage.getItem("AToken");
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -61,7 +62,86 @@ export const AdminContextProvider = ({ children }) => {
       toast.error(error.message)
     }
   }
-  return (
+
+  const getAllAppointments = async()=>{
+    try{
+      const {data}= await axios.get(`${backendUrl}/api/admin/appointments`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+
+    })
+    if(data.success)
+    {
+      setAppointments(data.appointments)
+    }
+    else{
+      toast.error(data.message)
+    }
+  
+  
+  
+  }
+    catch(error)
+    {
+      console.log(error)
+      toast.error(error.message)
+
+    }
+}
+    const cancelappointment = async(appointmentid)=>{
+
+      try{
+
+        const {data}= await axios.post(`${backendUrl}/api/admin/cancel-appointment`, {appointmentid}, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+
+    })
+    if(data.success)
+    {
+      toast.success(data.message)
+      getAllAppointments()
+    }
+    else{
+      toast.error(data.message)
+    }
+        
+
+      }
+      catch(error)
+      {
+        toast.error(error.message)
+      }
+
+    }
+
+    const getDashData = async()=>{
+      try{
+        const {data}= await axios.get(`${backendUrl}/api/admin/dashboard`,  {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+
+    })
+    if(data.success)
+    {
+      setDashData(data.dashData)
+      console.log(data.dashData)
+    }
+    else
+    {
+      toast.error(data.message)
+    }
+  }
+  catch(error)
+  {
+    toast.error(error.message)
+
+  }
+    }
+      return (
     <AdminContext.Provider
       value={{
         aToken,
@@ -71,7 +151,13 @@ export const AdminContextProvider = ({ children }) => {
         backendUrl,
         doctors,
         getAllDoctors, 
-        changeavailability
+        changeavailability,
+        appointments,
+        setAppointments,
+        getAllAppointments,
+        cancelappointment,
+        getDashData,
+        dashData
       }}
     >
       {children}

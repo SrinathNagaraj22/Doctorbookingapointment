@@ -6,6 +6,8 @@ import { v2 as cloudinary } from "cloudinary";
 import doctormodel from "../models/doctormodel.js";
 import appointmentModel from "../models/appointmentmodel.js";
 
+
+
 // Register user
 const registerUser = async (req, res) => {
   try {
@@ -153,11 +155,11 @@ const bookappointment = async (req, res) => {
 };
 
 // API to get user appointments
-// controllers/userController.js
+
 
 const listAppointment = async (req, res) => {
   try {
-    const userId = req.userId; // get userId from token
+    const userId = req.userId; 
     if (!userId) {
       return res.status(400).json({ success: false, message: "UserId is required" });
     }
@@ -170,9 +172,41 @@ const listAppointment = async (req, res) => {
   }
 };
 
+//API to cancel appointment
+
+const cancelAppointment = async (req, res) => {
+  try {
+    const { appointmentid } = req.body; 
+    const userId = req.userId;            
+
+    const appointmentData = await appointmentModel.findById(appointmentid);
+    if (!appointmentData) {
+      return res.status(404).json({ success: false, message: "Appointment not found" });
+    }
+
+    if (String(appointmentData.userId) !== String(userId)) {
+      return res.status(401).json({ success: false, message: "Unauthorized access" });
+    }
+
+    await appointmentModel.findByIdAndUpdate(appointmentid, { cancelled: true });
+    const { docId, slotDate, slotTime } = appointmentData;
+    const docData = await doctormodel.findById(docId);
+    let slots_booked = docData.slots_booked || {};
+    slots_booked[slotDate] = slots_booked[slotDate]?.filter(e => e !== slotTime);
+    await doctormodel.findByIdAndUpdate(docId, { slots_booked });
+
+    res.json({ success: true, message: "Appointment cancelled" });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
 
 
 
 
 
-export { registerUser, loginUser, getProfile, updateProfile, bookappointment, listAppointment};
+
+
+
+export { registerUser, loginUser, getProfile, updateProfile, bookappointment, listAppointment, cancelAppointment};

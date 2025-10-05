@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 
 function MyAppointments() {
-  const { backendUrl, token } = useContext(Appcontext);
+  const { backendUrl, token, getDoctorsdata } = useContext(Appcontext);
   const [appointments, setAppointments] = useState([]);
 
   const getUserAppointments = async () => {
@@ -12,7 +12,7 @@ function MyAppointments() {
 
   try {
     const { data } = await axios.get(`${backendUrl}/api/user/appointments`, {
-      headers: { Authorization: `Bearer ${token}` }, // token provides userId
+      headers: { Authorization: `Bearer ${token}` }, 
     });
 
     if (data.success) {
@@ -26,6 +26,30 @@ function MyAppointments() {
   }
 };
 
+  const cancelAppointment = async (appointmentid)=>{
+    try{
+
+      const { data } = await axios.post(`${backendUrl}/api/user/cancelappointment`, {appointmentid},{
+      headers: { Authorization: `Bearer ${token}` }, 
+    });
+
+    if(data.success)
+    {
+      toast.success(data.message)
+      getUserAppointments()
+      getDoctorsdata()
+    }
+    else{
+      toast.error(data.message)
+    }
+    }
+    catch(error)
+    {
+      console.log(error)
+      toast.error(error.message)
+
+    }
+  }
 
   useEffect(() => {
     if (token) {
@@ -39,7 +63,7 @@ function MyAppointments() {
 
       <div className="row g-4">
         {appointments.length === 0 && (
-          <p className="text-center text-muted">No appointments booked yet.</p>
+          <p className="text-center">No appointments booked yet.</p>
         )}
 
         {appointments.map((item, index) => {
@@ -61,7 +85,7 @@ function MyAppointments() {
                   <div className="col-md-8">
                     <div className="card-body">
                       <h5 className="card-title">{doctor.name}</h5>
-                      <p className="card-text text-muted">{doctor.speciality}</p>
+                      <p className="card-text">{doctor.speciality}</p>
                       <p className="mb-1">
                         <strong>Address:</strong>
                       </p>
@@ -72,12 +96,13 @@ function MyAppointments() {
                         {item.slotDate} | {item.slotTime}
                       </p>
                       <div className="d-flex gap-2">
-                        {!item.payment && (
+                        {!item.payment && !item.cancelled && (
                           <button className="btn btn-sm btn-primary">Pay Online</button>
                         )}
                         {!item.cancelled && (
-                          <button className="btn btn-sm btn-danger">Cancel Appointment</button>
+                          <button onClick={()=>cancelAppointment(item._id)} className="btn btn-sm btn-danger">Cancel Appointment</button>
                         )}
+                        {item.cancelled && <button className="btn btn-sm btn-danger">Appointment cancelled</button>}
                       </div>
                     </div>
                   </div>

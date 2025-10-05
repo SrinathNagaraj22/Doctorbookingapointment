@@ -141,7 +141,7 @@ function Appointment() {
                   key={idx}
                   className={`btn btn-sm ${selectedDate === day.date ? "btn-warning text-dark" : "btn-outline-light"}`}
                   onClick={() => { setSelectedDate(day.date); setSelectedSlot(""); }}
-                  disabled={getAvailableSlots(day.date).length === 0} // disable if no slots
+                  disabled={getAvailableSlots(day.date).length === 0} 
                 >
                   {day.dayName} <br /> {day.date.split('-').reverse().join('-')}
                 </button>

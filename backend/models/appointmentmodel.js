@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
 const appointmentSchema = new mongoose.Schema({
-    userId:{type: String, required: true},
-    docId: {type: String, required:true},
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "usermodel" },
+    docId: { type: mongoose.Schema.Types.ObjectId, ref: "doctormodel" },
     slotDate: {type:String , required:true},
     slotTime:{type:String, required:true},
     userDate:{type:Object, required:true},

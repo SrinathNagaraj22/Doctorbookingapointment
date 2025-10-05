@@ -11,8 +11,7 @@ const AppcontextProvider = (props) => {
   const [doctors, setDoctors] = useState([])
   const [token, setToken] = useState('') 
   const [userdata, setUserdata] = useState(false)
-  const navigate = useNavigate()
-
+  
   
 
   const getDoctorsdata = async () => {
@@ -50,14 +49,6 @@ const AppcontextProvider = (props) => {
     }
   }
 
-  const bookappointment = async()=>
-  {
-    if(!token)
-    {
-      toast.warning("Login to book appointment")
-      return navigate('/login')
-    }
-  }
   const value = { 
     doctors,
     token, 
