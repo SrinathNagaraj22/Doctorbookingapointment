@@ -16,6 +16,8 @@ import Doctorlist from "./pages/admin/doctorlist.jsx";
 
 // Doctor pages
 import DoctorDashboard from "./pages/doctor/DoctorDashboard.jsx";
+import Doctorprofile from "./pages/doctor/doctorprofile.jsx";
+import Doctorappointment from "./pages/doctor/doctorappointment.jsx";
 
 function App() {
   const { aToken, setAToken, setUserType } = useContext(AdminContext);
@@ -55,6 +57,8 @@ function App() {
                   <>
                     <Route path="/" element={<Navigate to="/doctor-dashboard" />} />
                     <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
+                    <Route path="/doctor-appointment" element={<Doctorappointment />} />
+                    <Route path="/doctor-profile" element={<Doctorprofile />} />
                   </>
                 )}
 

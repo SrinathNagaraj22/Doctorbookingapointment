@@ -2,20 +2,31 @@
 import React, { useContext } from "react";
 import { AdminContext } from "../context/AdminContext.jsx";
 import { useNavigate } from "react-router-dom";
+import { DoctorContext } from "../context/doctorcontext.jsx";
 
 function Navbar() {
   const { userType, aToken, setAToken } = useContext(AdminContext);
-  
+  const {DToken, setDToken} = useContext(DoctorContext)
   const navigate = useNavigate();
 
-  const logout = ()=>{
-    navigate('/')
-    if (aToken) {
-    setAToken("");                 
-    localStorage.removeItem("AToken");
-    localStorage.removeItem("userType"); 
+  const logout = () => {
+  // Clear all tokens regardless of user type
+  if (aToken) {
+    setAToken("");
   }
-}
+  if (DToken) {
+    setDToken("");
+  }
+
+  // Remove from localStorage
+  localStorage.removeItem("AToken");
+  localStorage.removeItem("DToken");
+  localStorage.removeItem("userType");
+
+  // Navigate to home/login page
+  navigate("/");
+};
+
 
   return (
     <div className="d-flex justify-content-between align-items-center p-3 border-bottom">

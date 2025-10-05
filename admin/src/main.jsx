@@ -4,7 +4,7 @@ import './index.css'
 import App from './App.jsx'
 import {BrowserRouter} from 'react-router-dom'
 import { AdminContextProvider } from "./context/AdminContext.jsx";
-import DoctorContextProvider from './context/doctorcontext.jsx'
+import {DoctorContextProvider} from './context/doctorcontext.jsx'
 import AppContextProvider from './context/appcontext.jsx'
 
 createRoot(document.getElementById('root')).render(

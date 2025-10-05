@@ -33,6 +33,7 @@ function Login() {
           localStorage.setItem("DToken", data.token);
           localStorage.setItem("userType", "DOCTOR");
           setDToken(data.token);
+          localStorage.setItem("docId", data.docId);
           setUserType("DOCTOR");
           toast.success("Doctor login successful!");
         }
@@ -62,6 +63,7 @@ function Login() {
             className="form-control"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            autoComplete="username"
           />
         </div>
 
@@ -73,6 +75,7 @@ function Login() {
             className="form-control"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
           />
         </div>
 
