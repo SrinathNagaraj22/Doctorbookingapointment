@@ -112,7 +112,9 @@ const doctorDashboard = async (req, res) => {
       return res.status(400).json({ success: false, message: "docId is required" });
     }
 
-    const appointments = await appointmentModel.find({ docId });
+    const appointments = await appointmentModel.find({ docId })
+    .populate({ path: "userId", select: "name email phone gender dob address image" }) 
+      .populate({ path: "docId", select: "name email speciality degree" }); 
 
     let earning = 0;
     appointments.forEach((item) => {

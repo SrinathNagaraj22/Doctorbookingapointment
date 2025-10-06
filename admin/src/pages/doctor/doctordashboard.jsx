@@ -60,14 +60,14 @@ function Doctordashboard() {
                 <tr key={appt._id} className="bg-secondary bg-opacity-10">
                   <td className="d-flex align-items-center">
                     <img
-                      src={appt.docData?.image || "/default-avatar.png"}
-                      alt={appt.docData?.name || "Patient"}
+                      src={appt.userId?.image || "/default-avatar.png"}
+                      alt={appt.userId?.name || "Patient"}
                       className="rounded-circle me-2"
                       style={{ width: "35px", height: "35px", objectFit: "cover" }}
                     />
-                    <span>{appt.docData?.name || "Unknown"}</span>
+                    <span>{appt.userId?.name || "Unknown"}</span>
                   </td>
-                  <td>{appt.docData?.email || "N/A"}</td>
+                  <td>{appt.userId?.email || "N/A"}</td>
                   <td>{appt.slotDate}</td>
                   <td>{appt.slotTime}</td>
                   <td>₹{appt.amount}</td>
