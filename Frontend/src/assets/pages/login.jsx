@@ -47,6 +47,7 @@ function Loginorcreateaccount() {
           localStorage.setItem('token', data.token);
           setToken(data.token);
           toast.success('Account created successfully');
+          navigate('/')
         } else {
           toast.error(data.message);
         }
@@ -74,6 +75,7 @@ function Loginorcreateaccount() {
                   onChange={e => setName(e.target.value)} 
                   pattern="[A-Za-z\s]+" 
                   required
+                  autoComplete='name'
                 />
               </>
             )}
@@ -86,6 +88,7 @@ function Loginorcreateaccount() {
               value={email} 
               onChange={e => setEmail(e.target.value)} 
               required
+              autoComplete='email'
             />
 
             <label htmlFor="password" className="form-label">Password</label>
@@ -96,6 +99,7 @@ function Loginorcreateaccount() {
               value={password} 
               onChange={e => setPassword(e.target.value)} 
               required
+              autoComplete='password'
             />
           </div>
 

@@ -34,7 +34,7 @@ const registerUser = async (req, res) => {
     res.json({ success: true, token });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: error.message });
+    res.status(400).json({ success: false, message: error.message });
   }
 };
 

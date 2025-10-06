@@ -66,7 +66,9 @@ function MyAppointments() {
           <p className="text-center">No appointments booked yet.</p>
         )}
 
-        {appointments.map((item, index) => {
+        {appointments
+          .sort((a, b) => a.isCompleted - b.isCompleted) 
+          .map((item, index) => {
           const doctor = item.docData;
           const appointmentDate = new Date(item.date);
 
@@ -96,13 +98,11 @@ function MyAppointments() {
                         {item.slotDate} | {item.slotTime}
                       </p>
                       <div className="d-flex gap-2">
-                        {!item.payment && !item.cancelled && (
-                          <button className="btn btn-sm btn-primary">Pay Online</button>
-                        )}
-                        {!item.cancelled && (
+                        {!item.cancelled && !item.isCompleted && (
                           <button onClick={()=>cancelAppointment(item._id)} className="btn btn-sm btn-danger">Cancel Appointment</button>
                         )}
                         {item.cancelled && <button className="btn btn-sm btn-danger">Appointment cancelled</button>}
+                        {item.isCompleted && <button className="btn btn-sm btn-success">Completed</button>}
                       </div>
                     </div>
                   </div>

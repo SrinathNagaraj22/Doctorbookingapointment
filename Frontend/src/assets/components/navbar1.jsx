@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import '../../index.css';
 import { Appcontext } from '../context/appcontext';
+import { toast } from 'react-toastify';
 
 function Navbar1() {
   const navigate = useNavigate();
@@ -11,6 +12,13 @@ function Navbar1() {
     setToken(null);
     localStorage.removeItem('token');
     navigate('/login');
+  };
+
+  const handleDoctorClick = (e) => {
+    if (!token) {
+      e.preventDefault(); // prevent navigation
+      toast.error("Please login to navigate to Doctors page");
+    }
   };
 
   return (
@@ -38,9 +46,12 @@ function Navbar1() {
           <li className="nav-item">
             <NavLink className="nav-link" to="/about">About</NavLink>
           </li>
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/doctors">Doctors</NavLink>
-          </li>
+          {/* Show Doctors only if logged in */}
+          {token && (
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/doctors">Doctors</NavLink>
+            </li>
+          )}
           <li className="nav-item">
             <NavLink className="nav-link" to="/contact">Contact</NavLink>
           </li>
@@ -56,14 +67,39 @@ function Navbar1() {
                 aria-expanded="false"
               ></i>
               <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="profileMenu">
-                <li><p className="dropdown-item mb-0" onClick={() => navigate('/myprofile')}>My Profile</p></li>
-                <li><p className="dropdown-item mb-0" onClick={() => navigate('/myapointment')}>My Appointments</p></li>
-                <li><p className="dropdown-item mb-0" onClick={Logout}>Logout</p></li>
+                <li>
+                  <p 
+                    className="dropdown-item mb-0" 
+                    onClick={() => navigate('/myprofile')}
+                  >
+                    My Profile
+                  </p>
+                </li>
+                <li>
+                  <p 
+                    className="dropdown-item mb-0" 
+                    onClick={() => navigate('/myapointment')}
+                  >
+                    My Appointments
+                  </p>
+                </li>
+                <li>
+                  <p 
+                    className="dropdown-item mb-0 text-danger" 
+                    onClick={Logout}
+                  >
+                    Logout
+                  </p>
+                </li>
               </ul>
             </div>
           ) : (
-            <button type="button" onClick={() => navigate('/createaccount')} className="btn btn-outline-light">
-              Create Account
+            <button 
+              type="button" 
+              onClick={() => navigate('/login')} 
+              className="btn btn-outline-light"
+            >
+              Login / Create Account
             </button>
           )}
         </div>
