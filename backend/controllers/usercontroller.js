@@ -106,51 +106,58 @@ const updateProfile = async (req, res) => {
 const bookappointment = async (req, res) => {
   try {
     const { docId, slotDate, slotTime } = req.body;
+    const userId = req.userId;
 
-    
-    const userId = req.userId; 
-    if (!userId) return res.status(401).json({ success: false, message: "Unauthorized" });
+    if (!userId)
+      return res.status(401).json({ success: false, message: "Unauthorized" });
 
-    const docData = await doctormodel.findById(docId).select('-password');
-    if (!docData) return res.status(404).json({ success: false, message: "Doctor not found" });
-    if (!docData.available) return res.json({ success: false, message: "Doctor not available" });
+    // Fetch doctor and check availability
+    const docData = await doctormodel.findById(docId).select("-password");
+    if (!docData)
+      return res.status(404).json({ success: false, message: "Doctor not found" });
 
-    
+    if (!docData.available)
+      return res
+        .status(400)
+        .json({ success: false, message: "Doctor not available" });
+
+    // Check if slot is already booked
     const slots_booked = docData.slots_booked || {};
     if (slots_booked[slotDate]?.includes(slotTime)) {
-      return res.json({ success: false, message: "Slot not available" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Slot not available" });
     }
     if (!slots_booked[slotDate]) slots_booked[slotDate] = [];
     slots_booked[slotDate].push(slotTime);
 
-    
-    const userData = await usermodel.findById(userId).select('-password');
+    // Fetch user snapshot (optional)
+    const userData = await usermodel.findById(userId).select("-password");
 
-    
-    const docDataForAppointment = { ...docData._doc };
-    delete docDataForAppointment.slots_booked;
-
+    // Prepare appointment data
     const appointmentData = {
-      userId,
-      docId,
-      userData,
-      docData: docDataForAppointment,
+      userId: mongoose.Types.ObjectId(userId), // store as ObjectId
+      docId: mongoose.Types.ObjectId(docId),   // store as ObjectId
+      userSnapshot: { ...userData._doc },      // optional snapshot
+      docSnapshot: { ...docData._doc },        // optional snapshot
       amount: docData.fees,
       slotTime,
       slotDate,
       date: Date.now(),
-      userDate: new Date().toISOString() // 
+      userDate: new Date().toISOString(),
     };
 
+    // Save appointment
     const newAppointment = new appointmentModel(appointmentData);
     await newAppointment.save();
 
+    // Update doctor's booked slots
     await doctormodel.findByIdAndUpdate(docId, { slots_booked });
 
     res.json({ success: true, message: "Appointment Booked" });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -159,18 +166,27 @@ const bookappointment = async (req, res) => {
 
 const listAppointment = async (req, res) => {
   try {
-    const userId = req.userId; 
+    const userId = req.userId;
     if (!userId) {
-      return res.status(400).json({ success: false, message: "UserId is required" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Unauthorized" });
     }
 
-    const appointments = await appointmentModel.find({ userId }).sort({ date: -1 });
+    const appointments = await appointmentModel
+      .find({ userId: mongoose.Types.ObjectId(userId) })
+      .sort({ date: -1 })
+      .populate("docId", "name email speciality degree") // populate doctor
+      .populate("userId", "name email phone gender dob address image"); // populate user if needed
+
     res.json({ success: true, appointments });
   } catch (error) {
     console.log(error);
-    res.status(400).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
+
+
 
 //API to cancel appointment
 

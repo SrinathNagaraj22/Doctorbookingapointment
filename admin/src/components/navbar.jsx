@@ -22,6 +22,7 @@ function Navbar() {
   localStorage.removeItem("AToken");
   localStorage.removeItem("DToken");
   localStorage.removeItem("userType");
+  localStorage.removeItem("docId");
 
   // Navigate to home/login page
   navigate("/");

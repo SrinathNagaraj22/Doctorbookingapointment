@@ -68,9 +68,9 @@ const appointmentDoctor = async (req, res) => {
     const { docId } = req.query;
 
     const appointments = await appointmentModel
-      .find({ docId })
-      .populate({ path: "userId", select: "name email phone gender dob address image" }) 
-      .populate({ path: "docId", select: "name email speciality degree" }); 
+      .find({ docId: new mongoose.Types.ObjectId(docId) }) // ✅ use new
+      .populate({ path: "userId", select: "name email phone gender dob address image" })
+      .populate({ path: "docId", select: "name email speciality degree" });
 
     res.json({ success: true, appointments });
   } catch (error) {
@@ -122,7 +122,13 @@ const doctorDashboard = async (req, res) => {
     });
 
     // Get unique patients
-    const patients = [...new Set(appointments.map((item) => item.userId.toString()))];
+    const patients = [
+  ...new Set(
+    appointments
+      .filter(item => item.userId != null) // remove null or undefined userIds
+      .map(item => item.userId.toString())
+  )
+];
 
     const dashData = {
       earning,

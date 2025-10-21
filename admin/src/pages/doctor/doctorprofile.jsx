@@ -183,7 +183,7 @@ function Doctorprofile() {
               </table>
             </div>
           ) : (
-            <p className="text-muted">No slots booked yet.</p>
+            <p>No slots booked yet.</p>
           )}
         </div>
       </div>
