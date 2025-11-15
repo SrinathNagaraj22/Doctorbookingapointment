@@ -86,7 +86,7 @@ function Doctors() {
                     objectFit: 'cover'
                   }}
                 />
-                <p className="text-success mb-1">Available</p>
+                <p className="text-success mb-1">{(item.available)?"Available":"Not Available"}</p>
                 <h5 className="card-title mb-1">{item.name}</h5>
                 <p className="text-muted">{item.speciality}</p>
               </div>
