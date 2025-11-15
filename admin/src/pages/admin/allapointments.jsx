@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { AdminContext } from "../../context/AdminContext";
+import { AdminContext } from "../../context/admincontext";
 
 function Allapointments() {
   const { aToken, getAllAppointments, appointments, cancelappointment } = useContext(AdminContext);

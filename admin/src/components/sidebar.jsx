@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { AdminContext } from "../context/AdminContext";
+import { AdminContext } from "../context/admincontext";
 import { NavLink } from "react-router-dom";
 import { DoctorContext } from "../context/doctorcontext";
 

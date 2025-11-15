@@ -1,6 +1,6 @@
 // components/Navbar.jsx
 import React, { useContext } from "react";
-import { AdminContext } from "../context/AdminContext.jsx";
+import { AdminContext } from "../context/admincontext.jsx";
 import { useNavigate } from "react-router-dom";
 import { DoctorContext } from "../context/doctorcontext.jsx";
 

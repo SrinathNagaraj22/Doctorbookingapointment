@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { AdminContext } from "../../context/AdminContext.jsx";
+import { AdminContext } from "../../context/admincontext.jsx";
 
 
 function Dashboard() {

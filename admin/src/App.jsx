@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { AdminContext } from "./context/AdminContext.jsx";
+import { AdminContext } from "./context/admincontext.jsx";
 import { DoctorContext } from "./context/doctorcontext.jsx";
 import Navbar from "./components/navbar.jsx";
 import Sidebar from "./components/sidebar.jsx";
@@ -10,7 +10,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 
 // Admin pages
 import Dashboard from "./pages/admin/Dashboard.jsx";
-import Allapointments from "./pages/admin/Allapointments.jsx";
+import Allapointments from "./pages/admin/allapointments.jsx";
 import Adddoctor from "./pages/admin/adddoctor.jsx";
 import Doctorlist from "./pages/admin/doctorlist.jsx";
 
