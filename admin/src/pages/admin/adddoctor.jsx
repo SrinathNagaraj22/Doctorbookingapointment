@@ -172,7 +172,7 @@ function Adddoctor() {
                 <option value="Gastroenterologist">Gastroenterologist</option>
                 <option value="Gynecologist">Gynecologist</option>
                 <option value="Neurologist">Neurologist</option>
-                <option value="Pediatricians">Pediatrician</option>
+                <option value="Pediatrician">Pediatrician</option>
                 <option value="Dermatologist">Dermatologist</option>
               </select>
             </div>
