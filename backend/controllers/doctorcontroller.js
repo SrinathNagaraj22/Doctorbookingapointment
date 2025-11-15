@@ -62,20 +62,27 @@ const loginDoctor = async (req, res)=>{
 }
 
 // API to get doctor appointment for doctor panel
-
 const appointmentDoctor = async (req, res) => {
   try {
-    const { docId } = req.query;
+    // accept docId from query, body or authenticated middleware (req.docId)
+    const docId = req.query.docId || req.body.docId || req.docId;
+    console.log('appointmentDoctor docId:', docId, 'source:', req.query.docId ? 'query' : req.body.docId ? 'body' : req.docId ? 'req.docId' : 'none');
+
+    if (!docId) return res.status(400).json({ success: false, message: 'docId is required' });
+
+    if (!mongoose.Types.ObjectId.isValid(docId)) {
+      return res.status(400).json({ success: false, message: 'Invalid docId' });
+    }
 
     const appointments = await appointmentModel
-      .find({ docId: new mongoose.Types.ObjectId(docId) }) // ✅ use new
+      .find({ docId: new mongoose.Types.ObjectId(docId) })
       .populate({ path: "userId", select: "name email phone gender dob address image" })
       .populate({ path: "docId", select: "name email speciality degree" });
 
     res.json({ success: true, appointments });
   } catch (error) {
-    console.log(error);
-    res.status(400).json({ success: false, message: error.message });
+    console.error(error);
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 

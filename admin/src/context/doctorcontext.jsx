@@ -20,10 +20,11 @@ export const DoctorContextProvider = ({ children }) => {
     try{
 
       const { data } = await axios.get(
-      `${backendUrl}/api/doctor/appointments?docId=${docId}`,
-      {
-        headers: { Authorization: `Bearer ${DToken}` }
-      }
+        `${backendUrl}/api/doctor/appointments`,
+        {
+          params: { docId },
+          headers: { Authorization: `Bearer ${DToken}` }
+        }
       );
       if(data.success)
       {
