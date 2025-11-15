@@ -10,12 +10,12 @@ import { Route, Routes, Navigate } from "react-router-dom";
 
 // Admin pages
 import Dashboard from "./pages/admin/Dashboard.jsx";
-import Allapointments from "./pages/admin/allapointments.jsx";
+import Allapointments from "./pages/admin/Allapointments.jsx";
 import Adddoctor from "./pages/admin/adddoctor.jsx";
 import Doctorlist from "./pages/admin/doctorlist.jsx";
 
 // Doctor pages
-import DoctorDashboard from "./pages/doctor/DoctorDashboard.jsx";
+import DoctorDashboard from "./pages/doctor/doctordashboard.jsx";
 import Doctorprofile from "./pages/doctor/doctorprofile.jsx";
 import Doctorappointment from "./pages/doctor/doctorappointment.jsx";
 

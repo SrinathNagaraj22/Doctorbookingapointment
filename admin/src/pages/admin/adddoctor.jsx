@@ -3,7 +3,7 @@ import upload_area from "../../assets/images/upload_area.svg";
 
 import { toast } from "react-toastify";
 import axios from "axios";
-import { AdminContext } from "../../context/admincontext";
+import { AdminContext } from "../../context/AdminContext";
 
 function Adddoctor() {
   const [docImg, setDocImg] = useState(false);
