@@ -28,7 +28,7 @@ function Topdoctors() {
                   objectFit: 'cover'
                 }}
               />
-              <p className='mt-2 text-success'>Available</p>
+              <p className={item.available?'mt-2 text-success':"mt-2 text-danger"}>{item.available?"Available":"Not available"}</p>
               <h6 className='mb-1'>{item.name}</h6>
               <p className='text-muted small'>{item.speciality}</p>
             </div>
