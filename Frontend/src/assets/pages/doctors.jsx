@@ -72,8 +72,8 @@ function Doctors() {
           <div key={index} className="col-md-4 col-lg-3">
             <div 
               className="card doctor-card bg-dark text-light border-0 shadow-sm text-center h-100"
-              onClick={!item.available ? null : () => navigate(`/appointment/${item._id}`)}
-              style={{ cursor: 'pointer' }}
+              onClick={!item.available ? null : () => navigate(`/apointment/${item._id}`)}
+              style={{ cursor: item.available ? 'pointer' : 'not-allowed' }}
             >
               <div className="card-body d-flex flex-column align-items-center">
                 <img
