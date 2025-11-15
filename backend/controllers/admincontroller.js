@@ -212,8 +212,13 @@ const adminDashboard = async (req, res) => {
   .sort({ date: -1 })
   .limit(10)
   .populate({ path: "userId", model: "user", select: "-password" })
+  let completed = 0;
+    latestAppointments.forEach((item) => {
+       (item.isCompleted)? completed+=1 : completed+=0;
+    });
 
     const dashData = {
+      completed,
       doctors: doctors.length,
       appointments: await appointmentModel.countDocuments(), 
       patients: users.length,
