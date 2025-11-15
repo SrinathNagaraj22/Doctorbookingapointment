@@ -9,7 +9,7 @@ import Login from "./pages/login.jsx";
 import { Route, Routes, Navigate } from "react-router-dom";
 
 // Admin pages
-import Dashboard from "./pages/admin/Dashboard.jsx";
+import Dashboard from "./pages/admin/dashboard.jsx";
 import Allapointments from "./pages/admin/allapointments.jsx";
 import Adddoctor from "./pages/admin/adddoctor.jsx";
 import Doctorlist from "./pages/admin/doctorlist.jsx";
