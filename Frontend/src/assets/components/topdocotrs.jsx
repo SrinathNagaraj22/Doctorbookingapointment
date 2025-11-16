@@ -5,7 +5,7 @@ import '../../index.css'
 
 function Topdoctors() {
   const navigate = useNavigate();
-  const { doctors } = useContext(Appcontext);
+  const { topdoctors } = useContext(Appcontext);
 
   return (
     <div className='container mt-5'>
@@ -15,7 +15,7 @@ function Topdoctors() {
       </p>
 
       <div className='row mt-4'>
-        {doctors.slice(0, 12).map((item, index) => (
+        {topdoctors.map((item, index) => (
           <div key={index} className='col-6 col-md-4 col-lg-3 mb-4'>
             <div onClick={item.available?() => navigate(`/apointment/${item._id}`):null} className='card doctor-card p-3 shadow-sm h-100 text-center'>
               <img

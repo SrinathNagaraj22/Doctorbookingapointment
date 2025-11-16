@@ -9,7 +9,10 @@ function Doctors() {
   const [activeSpec, setActiveSpec] = useState("")   
   const navigate = useNavigate()
   
-  const { doctors } = useContext(Appcontext)
+  const { doctors,getDoctorsdata } = useContext(Appcontext)
+  useEffect(() => {
+    getDoctorsdata();  
+  }, []);
 
   const applyfilter = () => {
     if (Speciality) {

@@ -6,9 +6,17 @@ import Infoabouthospital from '../components/infoabouthospital'
 import Footer from '../components/footer'
 import { useLocation } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { useContext } from 'react'
+import { Appcontext } from '../context/appcontext.jsx'
+
 
 function Home() {
   const location = useLocation();
+  const { gettopDoctorsdata } = useContext(Appcontext);
+
+    useEffect(() => {
+    gettopDoctorsdata();
+  }, []);
 
     useEffect(() => {
     if (location.state?.showToast) {

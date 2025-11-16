@@ -7,6 +7,7 @@ export const Appcontext = createContext();
 const AppcontextProvider = (props) => {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [doctors, setDoctors] = useState([]);
+  const [topdoctors, setTopdoctors] = useState([]);
   const [token, setToken] = useState(() => localStorage.getItem("token") || "");
   const [userdata, setUserdata] = useState(false);
 
@@ -17,6 +18,18 @@ const AppcontextProvider = (props) => {
         setDoctors(data.doctors);
       }
     } catch (error) {
+      console.log(error);
+    }
+  };
+  const gettopDoctorsdata = async () => {
+    try {
+      const { data } = await axios.get(backendUrl + '/api/user/topdoctors');
+      if(data.success)
+      {
+        setTopdoctors(data.doctors);
+      }
+    }
+      catch (error) {
       console.log(error);
     }
   };
@@ -41,7 +54,7 @@ const AppcontextProvider = (props) => {
   };
 
   useEffect(() => {
-    getDoctorsdata();
+    gettopDoctorsdata();
   }, []);
 
   useEffect(() => {
@@ -62,7 +75,9 @@ const AppcontextProvider = (props) => {
     userdata,
     setUserdata,
     Loaduserprofiledata,
-    getDoctorsdata
+    getDoctorsdata,
+    topdoctors,
+    gettopDoctorsdata
   };
 
   return (

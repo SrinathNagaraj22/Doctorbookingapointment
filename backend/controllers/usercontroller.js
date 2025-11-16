@@ -253,6 +253,21 @@ const cancelAppointment = async (req, res) => {
   }
 };
 
+//api to get top doctors for homepage
+const topdoctors = async(req,res)=>{
+  try{
+    const doctors = await doctormodel.find({"available":true}).select("name speciality degree fees image available").limit(12)
+    res.json({success:true,doctors});
+  }
+  catch(error)
+  {
+    console.log(error);
+    res
+      .status(400)
+      .json({ success: false, message: error.message });
+  }
+};
+
 export {
   registerUser,
   loginUser,
@@ -261,4 +276,5 @@ export {
   bookappointment,
   listAppointment,
   cancelAppointment,
+  topdoctors
 };
