@@ -65,8 +65,8 @@ const loginDoctor = async (req, res)=>{
 const appointmentDoctor = async (req, res) => {
   try {
     // accept docId from query, body or authenticated middleware (req.docId)
-    const docId = req.query.docId || req.body.docId || req.docId;
-    console.log('appointmentDoctor docId:', docId, 'source:', req.query.docId ? 'query' : req.body.docId ? 'body' : req.docId ? 'req.docId' : 'none');
+    const docId = req?.query?.docId || req?.body?.docId || req?.docId;
+    
 
     if (!docId) return res.status(400).json({ success: false, message: 'docId is required' });
 
